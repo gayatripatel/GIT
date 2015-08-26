@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "ProcessTaxReturns";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("ProcessTaxReturns", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="jumbotron">
+        <p>Upload tax returns file</p>
+        <div class="row">
+            @Html.Label("File")
+            <input type="file" id="TaxReturnFile" name="uFile" />
+            <input type="submit" value="Upload" />
+            <p>
+                @ViewBag.Result
+            </p>
+        </div>
+    </div>
+}
+
