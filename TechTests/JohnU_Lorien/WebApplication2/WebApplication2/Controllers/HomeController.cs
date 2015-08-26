@@ -43,6 +43,11 @@ namespace WebApplication2.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Uplaod the excel file and store the valid data into local database file
+        /// </summary>
+        /// <param name="uFile"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult ProcessTaxReturns(HttpPostedFileBase uFile)
         {
@@ -161,16 +166,37 @@ namespace WebApplication2.Controllers
             return View();
         }
     
-
+        /// <summary>
+        /// Method to retrieve existing data from the database
+        /// </summary>
+        /// <returns></returns>
         public ActionResult ViewDbData()
         {
             var dbContext = new TransactionsContext();
             var transactionList = new List<Transaction>();
             foreach (var item in dbContext.testts)
             {
-                transactionList.Add(new Transaction { Account = item.AccountNumber, Description = item.Description, CurrencyCode = item.CCode, Amount = item.Amount });
+                transactionList.Add(new Transaction { Account = item.AccountNumber, Description = item.Description, CurrencyCode = item.CCode, Amount = item.Amount, Id = item.Id });
             }
             return View(transactionList);
+        }
+
+        /// <summary>
+        /// Method to delete a single item from the database
+        /// </summary>
+        /// <param name="id">id of the item marked for deletion</param>
+        /// <returns></returns>
+        public ActionResult Delete(int id)
+        {
+            var dbContext = new TransactionsContext();
+            var itemToRemove = dbContext.testts.SingleOrDefault(x => x.Id == id);
+            if (itemToRemove != null)
+            {
+                dbContext.testts.Remove(itemToRemove);
+                dbContext.SaveChanges();
+            }
+
+            return RedirectToAction("ViewDbData");
         }
 
 

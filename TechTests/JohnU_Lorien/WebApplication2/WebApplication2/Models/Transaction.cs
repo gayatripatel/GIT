@@ -12,7 +12,7 @@ namespace WebApplication2.Models
     public class Transaction
     {
         [Key]
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         public string Account { get; set; }
 
